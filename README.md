@@ -5,7 +5,7 @@ app for Android & iOS, built with Dart & Flutter.
 ***
 Latest build status
 
-[(https://github.com/AmmarBinAbrar/mirc_podcast_app.git)](https://codemagic.io/apps/5ee1c043c2d4735b25c146a5/5ee1c043c2d4735b25c146a4/latest_build)]
+[(https://github.com/AmmarBinAbrar/mirc_podcast_app.git)](https://mirc.org.pk/)]
 ***
 
 ## Getting Started
@@ -14,7 +14,7 @@ mirc is currently at v1.3.x and is built against Flutter 3.15.199+. View
 the [project](https://github.com/AmmarBinAbrar/mirc_podcast_app.git)] to see what is
 currently being worked on.
 
-The official website can be found at [https://mircplayer.app](https://mircplayer.app)
+The official website can be found at [https://mirc.org.pk/](https://mirc.org.pk/)
 
 ### Testers
 
@@ -28,7 +28,7 @@ current developments.
 
 I would really appreciate all feedback - positive and negative - as it both helps improve mirc
 and prioritise new features. You can reach me
-at [ammarbinabrar@hotmail.com]].
+at [https://mirc.org.pk/].
 
 ### Building from source
 
@@ -132,7 +132,7 @@ Full details can be found in [CONTRIBUTING.md](CONTRIBUTING.md).
 ## Have a question?
 
 If you wish to reach out to me directly you can find me
-at [ammarbinabrar@hotmail.com].
+at [https://mirc.org.pk/].
 
 ## License
 

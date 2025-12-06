@@ -109,8 +109,6 @@ are heavily used within the application.
 
 ## Architecture
 
-![architecture.png](docs/architecture_small.png)
-
 mirc takes a layered approach:
 
 * UI - The UI presented to the users. Currently this is mobile, but could be extended to web and/or
@@ -126,9 +124,7 @@ mirc takes a layered approach:
 
 mirc is free and open source software. If you would like to help support the development of mirc,
 please consider donating a tea. mirc is fuelled by caffeine! Please checkout the 
-GitHub [sponsors](https://github.com/sponsors/amugofjava) link or my [ko-fi](https://ko-fi.com/amugofjava) page.
 
-<a href='https://ko-fi.com/amugofjava'><img alt="Support me on ko-fi" height="128" src="docs/kofi.jpg"/></a>
 
 ## Contributing
 

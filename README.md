@@ -1,11 +1,11 @@
-## mirc Podcast Player
+## Mirc Podcast Player
 
 This is the official repository for mirc Podcast Player - the simple and easy to use Podcast playing 
 app for Android & iOS, built with Dart & Flutter.
 ***
 Latest build status
 
-[![Codemagic build status](https://api.codemagic.io/apps/5ee1c043c2d4735b25c146a5/5ee1c043c2d4735b25c146a4/status_badge.svg)](https://codemagic.io/apps/5ee1c043c2d4735b25c146a5/5ee1c043c2d4735b25c146a4/latest_build)
+[(https://github.com/AmmarBinAbrar/mirc_podcast_app.git)](https://codemagic.io/apps/5ee1c043c2d4735b25c146a5/5ee1c043c2d4735b25c146a4/latest_build)]
 ***
 
 ## Getting Started

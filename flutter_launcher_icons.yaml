@@ -1,0 +1,19 @@
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/mirc-logo.png"
+  adaptive_icon_background: "#003A30"
+  adaptive_icon_foreground: "assets/images/mirc-logo.png"
+  min_sdk_android: 21
+  remove_alpha_ios: true
+  web:
+    generate: true
+    image_path: "assets/images/mirc-logo.png"
+    background_color: "#003A30"
+  windows:
+    generate: true
+    image_path: "assets/images/mirc-logo.png"
+    icon_size: 48
+  macos:
+    generate: true
+    image_path: "assets/images/mirc-logo.png"

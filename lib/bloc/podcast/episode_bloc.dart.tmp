@@ -1,0 +1,139 @@
+// Copyright 2025 Ammar Bin Abrar and the project contributors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import 'dart:async';
+
+import 'package:mirc/bloc/bloc.dart';
+import 'package:mirc/entities/episode.dart';
+import 'package:mirc/entities/downloadable.dart';
+import 'package:mirc/services/audio/audio_player_service.dart';
+import 'package:mirc/services/podcast/podcast_service.dart';
+import 'package:mirc/state/bloc_state.dart';
+import 'package:mirc/state/episode_state.dart';
+import 'package:logging/logging.dart';
+import 'package:rxdart/rxdart.dart';
+
+/// The BLoC provides access to [Episode] details outside the direct scope
+/// of a [Podcast].
+class EpisodeBloc extends Bloc {
+  final log = Logger('EpisodeBloc');
+  final PodcastService podcastService;
+  final AudioPlayerService audioPlayerService;
+
+  /// Add to sink to fetch list of current downloaded episodes.
+  final BehaviorSubject<bool> _downloadsInput = BehaviorSubject<bool>();
+
+  /// Add to sink to fetch list of current episodes.
+  final BehaviorSubject<bool> _episodesInput = BehaviorSubject<bool>();
+
+  /// Add to sink to delete the passed [Episode] from storage.
+  final PublishSubject<Episode> _deleteDownload = PublishSubject<Episode>();
+
+  /// Add to sink to toggle played status of the [Episode].
+  final PublishSubject<Episode> _togglePlayed = PublishSubject<Episode>();
+
+  /// Stream of currently downloaded episodes
+  late final Stream<BlocState<List<Episode>>> _downloadsOutput;
+
+  /// Stream of current episodes
+  late final Stream<BlocState<List<Episode>>> _episodesOutput;
+
+  EpisodeBloc({
+    required this.podcastService,
+    required this.audioPlayerService,
+  }) {
+    _init();
+  }
+
+  void _init() {
+    _downloadsOutput = _downloadsInput.switchMap<BlocState<List<Episode>>>((bool silent) => _loadDownloads(silent));
+    _episodesOutput = _episodesInput.switchMap<BlocState<List<Episode>>>((bool silent) => _loadEpisodes(silent));
+
+    _handleDeleteDownloads();
+    _handleMarkAsPlayed();
+    _listenEpisodeEvents();
+  }
+
+  void _handleDeleteDownloads() {
+    _deleteDownload.stream.listen((episode) async {
+      var nowPlaying = audioPlayerService.nowPlaying?.guid == episode.guid;
+
+      /// If we are attempting to delete the episode we are currently playing, we need to stop the audio.
+      if (nowPlaying) {
+        await audioPlayerService.stop();
+      }
+
+      await podcastService.deleteDownload(episode);
+      fetchDownloads(true);
+    });
+  }
+
+  void _handleMarkAsPlayed() {
+    _togglePlayed.stream.listen((episode) async {
+      await podcastService.toggleEpisodePlayed(episode);
+      fetchDownloads(true);
+    });
+  }
+
+  void _listenEpisodeEvents() {
+    // Listen for episode updates. If the episode is downloaded, we need to update.
+    podcastService.episodeListener
+        .where((event) => event.episode.downloaded || event.episode.played)
+        .listen((event) => fetchDownloads(true));
+  }
+
+  Stream<BlocState<List<Episode>>> _loadDownloads(bool silent) async* {
+    if (!silent) {
+      yield BlocLoadingState();
+    }
+
+    try {
+      var episodes = await podcastService.loadDownloads();
+      
+      // Filter to ensure only downloaded episodes are included
+      if (episodes != null) {
+        episodes = episodes.where((episode) => 
+          episode.downloadState == DownloadState.downloaded || 
+          episode.downloaded == true
+        ).toList();
+      }
+
+      yield BlocPopulatedState<List<Episode>>(results: episodes ?? []);
+    } catch (e, stack) {
+      log.warning('Failed to load downloads', e, stack);
+      yield BlocErrorState(error: BlocErrorType.unknown);
+    }
+  }
+
+  Stream<BlocState<List<Episode>>> _loadEpisodes(bool silent) async* {
+    if (!silent) {
+      yield BlocLoadingState();
+    }
+
+    try {
+      var episodes = await podcastService.loadEpisodes();
+      yield BlocPopulatedState<List<Episode>>(results: episodes ?? []);
+    } catch (e, stack) {
+      log.warning('Failed to load episodes', e, stack);
+      yield BlocErrorState(error: BlocErrorType.unknown);
+    }
+  }
+
+  @override
+  void dispose() {
+    _downloadsInput.close();
+    _episodesInput.close();
+    _deleteDownload.close();
+    _togglePlayed.close();
+  }
+
+  // Public interface
+  void Function(bool) get fetchDownloads => _downloadsInput.add;
+  void Function(bool) get fetchEpisodes => _episodesInput.add;
+  Stream<BlocState<List<Episode>>> get downloads => _downloadsOutput;
+  Stream<BlocState<List<Episode>>> get episodes => _episodesOutput;
+  void Function(Episode) get deleteDownload => _deleteDownload.add;
+  void Function(Episode) get togglePlayed => _togglePlayed.add;
+  Stream<EpisodeState> get episodeListener => podcastService.episodeListener;
+}

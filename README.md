@@ -8,11 +8,6 @@ Latest build status
 [![Codemagic build status](https://api.codemagic.io/apps/5ee1c043c2d4735b25c146a5/5ee1c043c2d4735b25c146a4/status_badge.svg)](https://codemagic.io/apps/5ee1c043c2d4735b25c146a5/5ee1c043c2d4735b25c146a4/latest_build)
 ***
 
-![screenshot1.png](docs/screenshot1b.png)&nbsp;
-![screenshot2.png](docs/screenshot2b.png)&nbsp;
-![screenshot3.png](docs/screenshot3b.png)&nbsp;
-![screenshot3.png](docs/screenshot4b.png)&nbsp;
-
 ## Getting Started
 
 mirc is currently at v1.3.x and is built against Flutter 3.29.2+. View

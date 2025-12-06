@@ -11,7 +11,7 @@ Latest build status
 ## Getting Started
 
 mirc is currently at v1.3.x and is built against Flutter 3.15.199+. View
-the [project](https://github.com/AmmarBinAbrar/mirc_podcast_app.git)](https://codemagic.io/apps/5ee1c043c2d4735b25c146a5/5ee1c043c2d4735b25c146a4/latest_build) to see what is
+the [project](https://github.com/AmmarBinAbrar/mirc_podcast_app.git)] to see what is
 currently being worked on.
 
 The official website can be found at [https://mircplayer.app](https://mircplayer.app)

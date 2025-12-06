@@ -10,8 +10,8 @@ Latest build status
 
 ## Getting Started
 
-mirc is currently at v1.3.x and is built against Flutter 3.29.2+. View
-the [project](https://github.com/amugofjava/mirc_podcast_player/projects/1) to see what is
+mirc is currently at v1.3.x and is built against Flutter 3.15.199+. View
+the [project](https://github.com/AmmarBinAbrar/mirc_podcast_app.git)](https://codemagic.io/apps/5ee1c043c2d4735b25c146a5/5ee1c043c2d4735b25c146a4/latest_build) to see what is
 currently being worked on.
 
 The official website can be found at [https://mircplayer.app](https://mircplayer.app)
@@ -25,12 +25,10 @@ current developments.
 
 <a href='https://play.google.com/store/apps/details?id=uk.me.amugofjava.mirc&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt="Get it on Google Play" height="61" src="docs/google-play-badge.png"/></a>
 &nbsp;
-<a href="https://www.amazon.com/gp/product/B09C4J7NL5"><img src="docs/amazon-appstore-badge-english-black.png" height="61" alt="mirc Play Store Link" target="_blank"></a>
-<a href="https://apps.apple.com/us/app/mirc-podcast-player/id1582300839#?platform=iphone"><img src="docs/apple.png" height="61" style="padding-left: 8px;" alt="mirc App Store Link" target="_blank"></a>
 
 I would really appreciate all feedback - positive and negative - as it both helps improve mirc
 and prioritise new features. You can reach me
-at [hello@mircplayer.app](mailto:hello@mircplayer.app).
+at [ammarbinabrar@hotmail.com]].
 
 ### Building from source
 
@@ -134,7 +132,7 @@ Full details can be found in [CONTRIBUTING.md](CONTRIBUTING.md).
 ## Have a question?
 
 If you wish to reach out to me directly you can find me
-at [ammarbinabrar@hotmail.com](mailto:hello@mircplayer.app).
+at [ammarbinabrar@hotmail.com].
 
 ## License
 

@@ -134,7 +134,7 @@ Full details can be found in [CONTRIBUTING.md](CONTRIBUTING.md).
 ## Have a question?
 
 If you wish to reach out to me directly you can find me
-at [hello@mircplayer.app](mailto:hello@mircplayer.app).
+at [ammarbinabrar@hotmail.com](mailto:hello@mircplayer.app).
 
 ## License
 

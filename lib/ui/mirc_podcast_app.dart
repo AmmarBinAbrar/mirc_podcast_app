@@ -299,7 +299,7 @@ class _mircHomePageState extends State<mircHomePage> with WidgetsBindingObserver
     {
       'url': 'https://masjidrehman.pk/category/audios/feed/',
       'name': 'Masjid Rehman',
-      'order': 4, // Fourth position
+      'order': 3, // Third position
     },
 
     // Add more RSS feeds here only if they are valid and working

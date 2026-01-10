@@ -2,61 +2,63 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:convert';
-import 'dart:io';
+// Copyright 2025 Ammar Bin Abrar and the project contributors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
+import 'dart:io';
 import 'package:mirc/entities/episode.dart';
 import 'package:mirc/entities/podcast.dart';
-import 'package:mirc/services/settings/mobile_settings_service.dart';
 import 'package:mirc/services/settings/settings_service.dart';
+import 'package:mirc/services/settings/mobile_settings_service.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 
-/// Returns the storage directory for the current platform.
-///
-/// On iOS, the directory that the app has available to it for storing episodes may
-/// change between updates, whereas on Android we are able to save the full path. To
-/// ensure we can handle the directory name change on iOS without breaking existing
-/// Android installations we have created the following three functions to help with
-/// resolving the various paths correctly depending upon platform.
+/// =======================
+/// STORAGE FUNCTIONS
+/// =======================
+
+/// Returns the full file path for an episode on the device
 Future<String> resolvePath(Episode episode) async {
   if (Platform.isIOS) {
-    return Future.value(join(await getStorageDirectory(), episode.filepath, episode.filename));
+    return join(await getStorageDirectory(), episode.filepath, episode.filename);
   }
 
-  return Future.value(join(episode.filepath!, episode.filename));
+  return join(episode.filepath!, episode.filename);
 }
 
+/// Returns the directory path for storing an episode
 Future<String> resolveDirectory({required Episode episode, bool full = false}) async {
   if (full || Platform.isAndroid) {
-    return Future.value(join(await getStorageDirectory(), safePath(episode.podcast!)));
+    return join(await getStorageDirectory(), safePath(episode.podcast!));
   }
 
-  return Future.value(safePath(episode.podcast!));
+  return safePath(episode.podcast!)!;
 }
 
+/// Creates the download directory if it doesn't exist
 Future<void> createDownloadDirectory(Episode episode) async {
-  var path = join(await getStorageDirectory(), safePath(episode.podcast!));
-
+  final path = join(await getStorageDirectory(), safePath(episode.podcast!));
   Directory(path).createSync(recursive: true);
 }
 
+/// Checks if the app has storage permissions
 Future<bool> hasStoragePermission() async {
-  SettingsService? settings = await MobileSettingsService.instance();
+  final SettingsService? settings = await MobileSettingsService.instance();
 
   if (Platform.isIOS || !settings!.storeDownloadsSDCard) {
-    return Future.value(true);
-  } else {
-    final permissionStatus = await Permission.storage.request();
-
-    return Future.value(permissionStatus.isGranted);
+    return true;
   }
+
+  final permissionStatus = await Permission.storage.request();
+  return permissionStatus.isGranted;
 }
 
+/// Returns the main storage directory for the app
 Future<String> getStorageDirectory() async {
-  SettingsService? settings = await MobileSettingsService.instance();
+  final SettingsService? settings = await MobileSettingsService.instance();
   Directory directory;
 
   if (Platform.isIOS) {
@@ -70,102 +72,100 @@ Future<String> getStorageDirectory() async {
   return join(directory.path, 'mirc');
 }
 
+/// Checks if the device has an external SD card
 Future<bool> hasExternalStorage() async {
   try {
     await _getSDCard();
-
-    return Future.value(true);
-  } catch (e) {
-    return Future.value(false);
+    return true;
+  } catch (_) {
+    return false;
   }
 }
 
+/// Gets the SD card directory path
 Future<Directory> _getSDCard() async {
-  final appDocumentDir = (await getExternalStorageDirectories(type: StorageDirectory.podcasts))!;
+  final dirs = await getExternalStorageDirectories(type: StorageDirectory.podcasts);
 
-  Directory? path;
-
-  // If the directory contains the word 'emulated' we are
-  // probably looking at a mapped user partition rather than
-  // an actual SD card - so skip those and find the first
-  // non-emulated directory.
-  if (appDocumentDir.isNotEmpty) {
-    // See if we can find the last card without emulated
-    for (var d in appDocumentDir) {
+  if (dirs != null) {
+    for (final d in dirs) {
       if (!d.path.contains('emulated')) {
-        path = d.absolute;
+        return d.absolute;
       }
     }
   }
 
-  if (path == null) {
-    throw ('No SD card found');
-  }
-
-  return path;
+  throw ('No SD card found');
 }
 
-/// Strips characters that are invalid for file and directory names.
-String? safePath(String? s) {
-  return s?.replaceAll(RegExp(r'[^\w\s]+'), '').trim();
-}
+/// =======================
+/// FILE NAME / PATH SANITIZATION
+/// =======================
 
-String? safeFile(String? s) {
-  return s?.replaceAll(RegExp(r'[^\w\s\.]+'), '').trim();
-}
+/// Sanitizes strings for use as directory names
+String? safePath(String? s) => s?.replaceAll(RegExp(r'[^\w\s]+'), '').trim();
 
+/// Sanitizes strings for use as filenames
+String? safeFile(String? s) => s?.replaceAll(RegExp(r'[^\w\s\.]+'), '').trim();
+
+/// =======================
+/// URL / NETWORK HELPERS
+/// =======================
+
+/// Resolves a URL and optionally forces HTTPS
 Future<String> resolveUrl(String url, {bool forceHttps = false}) async {
-  final client = HttpClient();
-  var uri = Uri.parse(url);
-  var request = await client.getUrl(uri);
-
-  request.followRedirects = false;
-
-  var response = await request.close();
-
-  while (response.isRedirect) {
-    response.drain(0);
-    final location = response.headers.value(HttpHeaders.locationHeader);
-    if (location != null) {
-      uri = uri.resolve(location);
-      request = await client.getUrl(uri);
-      // Set the body or headers as desired.
-      request.followRedirects = false;
-      response = await request.close();
-    }
+  if (forceHttps && url.startsWith('http://')) {
+    url = url.replaceFirst('http://', 'https://');
   }
 
-  if (uri.scheme == 'http') {
-    uri = uri.replace(scheme: 'https');
-  }
-
-  return uri.toString();
+  // TODO: Optionally, you could follow redirects or check if URL is reachable
+  return url;
 }
 
+/// =======================
+/// SHARE FUNCTIONS
+/// =======================
+
+/// Share podcast using its original RSS / website URL
 Future<void> sharePodcast({required Podcast podcast}) async {
-  var url = base64UrlEncode(utf8.encode(podcast.url));
+  if (podcast.url.isEmpty) return;
 
-  /// Manually remove padding. Required to work with episodes.fm
-  url = url.replaceAll('=', '');
+  final text = '''
+${podcast.title}
 
-  final link = '${podcast.title}\n\nhttps://episodes.fm/$url';
+${podcast.url}
+''';
 
   await SharePlus.instance.share(
-    ShareParams(text: link),
+    ShareParams(text: text.trim()),
   );
 }
 
+/// Share episode using the best available URL
 Future<void> shareEpisode({required Episode episode}) async {
-  var podcastId = base64UrlEncode(utf8.encode(episode.pguid ?? ''));
-  var episodeId = base64UrlEncode(utf8.encode(episode.guid));
+  final String? url = _resolveEpisodeShareUrl(episode);
+  if (url == null || url.isEmpty) return;
 
-  /// Manually remove padding. Required to work with episodes.fm
-  podcastId = podcastId.replaceAll('=', '');
-  episodeId = episodeId.replaceAll('=', '');
+  final text = '''
+${episode.title}
 
-  final link = '${episode.title}\n\nhttps://episodes.fm/$podcastId/episode/$episodeId';
+$url
+''';
 
   await SharePlus.instance.share(
-    ShareParams(text: link),
+    ShareParams(text: text.trim()),
   );
+}
+
+/// Prefer episode page URL, fallback to audio file URL
+String? _resolveEpisodeShareUrl(Episode episode) {
+  if (episode.link != null && episode.link!.isNotEmpty) {
+    return episode.link;
+  }
+
+  // Uncomment this if you want to fallback to the media file
+  // if (episode.contentUrl != null && episode.contentUrl!.isNotEmpty) {
+  //   return episode.contentUrl;
+  // }
+
+  return null;
 }

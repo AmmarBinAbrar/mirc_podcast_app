@@ -138,7 +138,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'no_downloads_message': MessageLookupByLibrary.simpleMessage('You do not have any downloaded episodes'),
     'no_podcast_details_message': MessageLookupByLibrary.simpleMessage('Could not load podcast episodes. Please check your connection.'),
     'no_search_results_message': MessageLookupByLibrary.simpleMessage('No podcasts found'),
-    'no_subscriptions_message': MessageLookupByLibrary.simpleMessage('Unfollowed a channel? Close and reopen the app to see it again'),
+    'no_subscriptions_message': MessageLookupByLibrary.simpleMessage('Fetching podcast content. Please wait…'),
     'no_transcript_available_label': MessageLookupByLibrary.simpleMessage('A transcript is not available for this podcast'),
     'notes_label': MessageLookupByLibrary.simpleMessage('Notes'),
     'now_playing_episode_position': MessageLookupByLibrary.simpleMessage('Episode position'),

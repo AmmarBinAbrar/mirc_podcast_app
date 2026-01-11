@@ -1,4 +1,6 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  errors:
+    unused_import: ignore
   exclude: [ build/**, lib/**/*.g.dart, lib/l10n/** ]

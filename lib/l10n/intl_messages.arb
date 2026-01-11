@@ -78,7 +78,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "no_subscriptions_message": "Unfollowed a channel? Close and reopen the app to see it again",
+  "no_subscriptions_message": "Fetching podcast content. Please wait…",
   "@no_subscriptions_message": {
     "description": "Displayed on the library tab when the user has no subscriptions",
     "type": "text",

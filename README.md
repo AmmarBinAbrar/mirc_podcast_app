@@ -38,7 +38,7 @@ Flutter site [here](https://flutter.dev/docs/get-started/install).
 Fetch the latest from master:
 
 ```
-git clone https://github.com/amugofjava/mirc_podcast_player.git
+git clone (https://github.com/AmmarBinAbrar/mirc_podcast_app.git)
 ```
 
 From the mirc_podcast_player directory fetch the dependencies:

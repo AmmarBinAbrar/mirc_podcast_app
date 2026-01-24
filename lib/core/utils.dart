@@ -127,18 +127,28 @@ Future<String> resolveUrl(String url, {bool forceHttps = false}) async {
 
 /// Share podcast using its original RSS / website URL
 Future<void> sharePodcast({required Podcast podcast}) async {
-  if (podcast.url.isEmpty) return;
+  String url = '';
 
-  final text = '''
-${podcast.title}
+  final rss = podcast.url.toLowerCase(); // RSS feed URL
 
-${podcast.url}
-''';
+  if (rss.contains('islamfort')) {
+    url = 'https://islamfort.com/videos/';
+  } else if (rss.contains('jamiat')) {
+    url = 'https://jamiatsindh.org/en/sec/audio/';
+  } else if (rss.contains('masjidrehman')) {
+    url = 'https://masjidrehman.pk/category/audios/';
+  } else {
+    return; // agar koi match na ho
+  }
 
   await SharePlus.instance.share(
-    ShareParams(text: text.trim()),
+    ShareParams(
+      text: '${podcast.title}\n\n$url',
+    ),
   );
 }
+
+
 
 /// Share episode using the best available URL
 Future<void> shareEpisode({required Episode episode}) async {

@@ -302,7 +302,7 @@ class _mircHomePageState extends State<mircHomePage> with WidgetsBindingObserver
       'order': 2, // Second position
     },
     {
-      'url': 'https://masjidrehman.pk/category/audios/feed/',
+      'url': 'https://masjidrehman.pk/MIRCAppRSSFeeds/masjidRehman_podcast.xml',
       'name': 'Masjid Rehman',
       'order': 3, // Third position
     },

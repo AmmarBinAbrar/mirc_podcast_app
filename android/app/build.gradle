@@ -59,7 +59,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.mirc.podcastapp"
+        applicationId "pk.org.mirc.podcastapp"
         minSdkVersion 22
         targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()

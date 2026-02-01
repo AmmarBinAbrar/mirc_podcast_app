@@ -132,13 +132,13 @@ Future<void> sharePodcast({required Podcast podcast}) async {
   final rss = podcast.url.toLowerCase(); // RSS feed URL
 
   if (rss.contains('islamfort')) {
-    url = 'https://islamfort.com/videos/';
+    url = 'https://islamfort.com/audios/';
   } else if (rss.contains('jamiat')) {
-    url = 'https://jamiatsindh.org/en/sec/audio/';
+    url = 'https://jamiatsindh.org/ur/sec/audio/';
   } else if (rss.contains('masjidrehman')) {
     url = 'https://masjidrehman.pk/category/audios/';
   } else {
-    return; // agar koi match na ho
+    return; 
   }
 
   await SharePlus.instance.share(

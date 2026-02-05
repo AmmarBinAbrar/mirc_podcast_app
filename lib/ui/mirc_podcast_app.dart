@@ -792,13 +792,13 @@ class _mircHomePageState extends State<mircHomePage> with WidgetsBindingObserver
               height: 52.0,
             ),
             children: <Widget>[
-              const Text('\u00a9 2025 Ammar Bin Abrar'),
+              const Text('\u00a9 2026 MIRC All rights reserved.'),
               GestureDetector(
                 onTap: () {
                   _launchEmail();
                 },
                 child: Text(
-                  'hello@mirc.app',
+                  '',
                   style: TextStyle(
                     decoration: TextDecoration.underline,
                     // ignore: deprecated_member_use

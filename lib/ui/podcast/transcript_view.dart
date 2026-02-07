@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:async';
 
 import 'package:mirc/bloc/podcast/audio_bloc.dart';
@@ -32,6 +34,7 @@ class TranscriptView extends StatefulWidget {
 }
 
 class _TranscriptViewState extends State<TranscriptView> {
+  static const bool ENABLE_TRANSCRIPT = false;
   final log = Logger('TranscriptView');
   final ItemScrollController _itemScrollController = ItemScrollController();
   final ScrollOffsetListener _scrollOffsetListener = ScrollOffsetListener.create(recordProgrammaticScrolls: false);
@@ -173,6 +176,14 @@ class _TranscriptViewState extends State<TranscriptView> {
 
   @override
   Widget build(BuildContext context) {
+     if (!ENABLE_TRANSCRIPT) {
+    return const Center(
+      child: Text(
+        'The transcript is not available.',
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
     final audioBloc = Provider.of<AudioBloc>(context, listen: false);
     final queueBloc = Provider.of<QueueBloc>(context, listen: false);
 
@@ -208,19 +219,6 @@ class _TranscriptViewState extends State<TranscriptView> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 32.0, bottom: 32.0),
-                              child: OutlinedButton(
-                                  onPressed: () {
-                                    final uri = Uri.parse(L.of(context)!.transcript_why_not_url);
-
-                                    unawaited(
-                                      canLaunchUrl(uri).then((value) => launchUrl(uri)),
-                                    );
-                                  },
-                                  child: Text(
-                                    L.of(context)!.transcript_why_not_label,
-                                    style: Theme.of(context).textTheme.titleSmall,
-                                    textAlign: TextAlign.center,
-                                  )),
                             ),
                           ],
                         ),

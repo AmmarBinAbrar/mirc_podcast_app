@@ -2033,7 +2033,7 @@ class mircLocalisationsDelegate extends LocalizationsDelegate<L> {
   const mircLocalisationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => ['en', 'es', 'de', 'gl', 'it', 'nl', 'ru', 'vi'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => ['en', 'ur', 'ar'].contains(locale.languageCode);
 
   @override
   Future<L> load(Locale locale) => L.load(locale, const {});
@@ -2056,7 +2056,7 @@ class EmbeddedLocalisationsDelegate extends LocalizationsDelegate<L> {
   EmbeddedLocalisationsDelegate({@required this.messages = const {}});
 
   @override
-  bool isSupported(Locale locale) => ['en', 'es', 'de', 'gl', 'it', 'nl', 'ru', 'vi'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => ['en', 'ur', 'ar'].contains(locale.languageCode);
 
   @override
   Future<L> load(Locale locale) => L.load(locale, messages);
